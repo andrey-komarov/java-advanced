@@ -4,7 +4,7 @@ public class Calculator {
 	private final String expression;
 	private ParseTreeNode tree;
 	private int pos;
-
+	
 	private void advance() throws ParseException {
 		pos++;
 		if (pos == expression.length() + 1) {
@@ -12,6 +12,13 @@ public class Calculator {
 		}
 	}
 
+	private char charAt(int i) throws ParseException {
+		if (pos >= expression.length()) {
+			throw new ParseException("unxepected end of line");
+		}
+		return expression.charAt(i);
+	}
+	
 	public Calculator(String expression) throws ParseException {
 		StringBuilder sb = new StringBuilder();
 		for (char ch : expression.toCharArray()) {
@@ -176,7 +183,7 @@ public class Calculator {
 			if (first + (long) second != first + second) {
 				throw new OverflowException(first + " + " + second);
 			}
-			return left.evaluate(x) + right.evaluate(x);
+			return first + second;
 		}
 	}
 
@@ -241,22 +248,21 @@ public class Calculator {
 	}
 
 	private ParseTreeNode parseExpression() throws ParseException {
-		if (expression.charAt(pos) == '-') {
+		if (charAt(pos) == '-') {
 			advance();
 			return new NodeUnaryMinus(parseExpression());
-		} else if (expression.charAt(pos) == '+') {
+		} else if (charAt(pos) == '+') {
 			advance();
 			return new NodeUnaryPlus(parseExpression());
-		} else if (expression.charAt(pos) == '(') {
+		} else if (charAt(pos) == '(') {
 			advance();
 			ParseTreeNode result = parseSum();
-			if (expression.charAt(pos) != ')') {
+			if (charAt(pos) != ')') {
 				throw new ParseException("Skipped ) at position " + pos);
 			}
 			advance();
 			return result;
-		} else if (expression.charAt(pos) == 'x'
-				|| expression.charAt(pos) == 'X') {
+		} else if (charAt(pos) == 'x' || charAt(pos) == 'X') {
 			advance();
 			return new NodeX();
 		} else {
@@ -267,8 +273,8 @@ public class Calculator {
 	private ParseTreeNode parseNumber() throws ParseException {
 		StringBuilder sb = new StringBuilder();
 		while (pos < expression.length()
-				&& Character.isDigit(expression.charAt(pos))) {
-			sb.append(expression.charAt(pos));
+				&& Character.isDigit(charAt(pos))) {
+			sb.append(charAt(pos));
 			advance();
 		}
 		try {
@@ -284,11 +290,11 @@ public class Calculator {
 		while (true) {
 			if (pos == expression.length()) {
 				return result;
-			} else if (expression.charAt(pos) == '+') {
+			} else if (charAt(pos) == '+') {
 				advance();
 				ParseTreeNode now = parseProduct();
 				result = new NodeAdd(result, now);
-			} else if (expression.charAt(pos) == '-') {
+			} else if (charAt(pos) == '-') {
 				advance();
 				ParseTreeNode now = parseProduct();
 				result = new NodeSubtract(result, now);
@@ -303,10 +309,10 @@ public class Calculator {
 		while (true) {
 			if (pos == expression.length()) {
 				return result;
-			} else if (expression.charAt(pos) == '*') {
+			} else if (charAt(pos) == '*') {
 				advance();
 				result = new NodeProduct(result, parseExpression());
-			} else if (expression.charAt(pos) == '/') {
+			} else if (charAt(pos) == '/') {
 				advance();
 				result = new NodeDivide(result, parseExpression());
 			} else {
