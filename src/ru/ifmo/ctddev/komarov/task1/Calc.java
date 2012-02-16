@@ -4,7 +4,7 @@ import ru.ifmo.ctddev.komarov.task1.Calculator;
 
 public class Calc {
 	public static void main(String[] args) {
-		args = new String[] {"-(x * --x)+--x"};
+		args = new String[] {"-(x * --x)+--x + ("};
 		
 		if (args.length != 1) {
 			System.out.println("program needs one argument: arithmetic expression");

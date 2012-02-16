@@ -5,6 +5,13 @@ public class Calculator {
 	private ParseTreeNode tree;
 	private int pos;
 	
+	private void advance() {
+		pos++;
+		if (pos == expression.length()) {
+			throw new ParseException("unexpected end of line");
+		}
+	}
+	
 	public Calculator(String expression) {
 		StringBuilder sb = new StringBuilder();
 		for (char ch : expression.toCharArray()) {
@@ -15,6 +22,9 @@ public class Calculator {
 		this.expression = sb.toString();
 		pos = 0;
 		tree = parseSum();
+		if (pos != expression.length()) {
+			throw new ParseException("something in the end of string");
+		}
 	}
 
 	public int evaluate(int x) {
@@ -227,21 +237,21 @@ public class Calculator {
 	
 	private ParseTreeNode parseExpression() {
 		if (expression.charAt(pos) == '-') {
-			pos++;
+			advance();
 			return new NodeUnaryMinus(parseExpression());
 		} else if (expression.charAt(pos) == '+') {
-			pos++;
+			advance();
 			return new NodeUnaryPlus(parseExpression());
 		} else if (expression.charAt(pos) == '(') {
-			pos++;
+			advance();
 			ParseTreeNode result = parseSum();
 			if (expression.charAt(pos) != ')') {
 				throw new ParseException("Skipped ) at position " + pos);
 			}
-			pos++;
+			advance();
 			return result;
 		} else if (expression.charAt(pos) == 'x' || expression.charAt(pos) == 'X') {
-			pos++;
+			advance();
 			return new NodeX();
 		}else {
 			return parseNumber();
@@ -252,7 +262,7 @@ public class Calculator {
 		StringBuilder sb = new StringBuilder();
 		while (pos < expression.length() && Character.isDigit(expression.charAt(pos))) {
 			sb.append(expression.charAt(pos));
-			pos++;
+			advance();
 		}
 		try {
 			int value = Integer.parseInt(sb.toString());
@@ -268,11 +278,11 @@ public class Calculator {
 			if (pos == expression.length()) {
 				return result;
 			} else if (expression.charAt(pos) == '+') {
-				pos++;
+				advance();
 				ParseTreeNode now = parseProduct();
 				result = new NodeAdd(result, now);
 			} else if (expression.charAt(pos) == '-') {
-				pos++;
+				advance();
 				ParseTreeNode now = parseProduct();
 				result = new NodeSubtract(result, now);
 			} else {
@@ -287,10 +297,10 @@ public class Calculator {
 			if (pos == expression.length()) {
 				return result;
 			} else if (expression.charAt(pos) == '*') {
-				pos++;
+				advance();
 				result = new NodeProduct(result, parseExpression());
 			} else if (expression.charAt(pos) == '/') {
-				pos++;
+				advance();
 				result = new NodeDivide(result, parseExpression());
 			} else {
 				return result;
