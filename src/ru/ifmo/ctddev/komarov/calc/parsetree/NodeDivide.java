@@ -1,6 +1,6 @@
 package ru.ifmo.ctddev.komarov.calc.parsetree;
 
-import ru.ifmo.ctddev.komarov.calc.DivisionByZeroException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.DivisionByZeroException;
 
 /**
 * Created by IntelliJ IDEA.

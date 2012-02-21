@@ -1,8 +1,6 @@
 package ru.ifmo.ctddev.komarov.calc.parsetree;
 
-import ru.ifmo.ctddev.komarov.calc.CalculatorEvaluationException;
-import ru.ifmo.ctddev.komarov.calc.DivisionByZeroException;
-import ru.ifmo.ctddev.komarov.calc.OverflowException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.CalculatorEvaluationException;
 
 /**
 * Created by IntelliJ IDEA.
@@ -12,5 +10,5 @@ import ru.ifmo.ctddev.komarov.calc.OverflowException;
 * To change this template use File | Settings | File Templates.
 */
 public interface ParseTreeNode {
-    double evaluate(int x) throws OverflowException, DivisionByZeroException, CalculatorEvaluationException;
+    double evaluate(double x) throws CalculatorEvaluationException;
 }

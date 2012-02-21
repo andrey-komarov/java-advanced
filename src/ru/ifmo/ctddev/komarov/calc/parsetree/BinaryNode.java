@@ -1,8 +1,8 @@
 package ru.ifmo.ctddev.komarov.calc.parsetree;
 
-import ru.ifmo.ctddev.komarov.calc.CalculatorEvaluationException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.CalculatorEvaluationException;
 import ru.ifmo.ctddev.komarov.calc.Checker;
-import ru.ifmo.ctddev.komarov.calc.DivisionByZeroException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.DivisionByZeroException;
 
 public abstract class BinaryNode implements ParseTreeNode {
 	private final ParseTreeNode op1;
@@ -14,7 +14,7 @@ public abstract class BinaryNode implements ParseTreeNode {
 	}
 
 	@Override
-	public double evaluate(int x) throws CalculatorEvaluationException {
+	public double evaluate(double x) throws CalculatorEvaluationException {
 		double result = evaluate(op1.evaluate(x), op2.evaluate(x));
 		Checker.checkIfOverflow(result);
 		return result;

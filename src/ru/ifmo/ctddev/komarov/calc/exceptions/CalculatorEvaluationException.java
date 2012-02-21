@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.komarov.calc;
+package ru.ifmo.ctddev.komarov.calc.exceptions;
 
 /**
  * Created by IntelliJ IDEA.

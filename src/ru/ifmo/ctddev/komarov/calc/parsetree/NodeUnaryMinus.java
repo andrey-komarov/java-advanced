@@ -1,7 +1,7 @@
 package ru.ifmo.ctddev.komarov.calc.parsetree;
 
-import ru.ifmo.ctddev.komarov.calc.CalculatorEvaluationException;
-import ru.ifmo.ctddev.komarov.calc.OverflowException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.CalculatorEvaluationException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.OverflowException;
 
 import static ru.ifmo.ctddev.komarov.calc.Checker.checkIfOverflow;
 
@@ -20,7 +20,7 @@ public class NodeUnaryMinus implements ParseTreeNode {
     }
 
     @Override
-    public double evaluate(int x) throws CalculatorEvaluationException {
+    public double evaluate(double x) throws CalculatorEvaluationException {
         double res = next.evaluate(x);
         if (checkIfOverflow(-res)) {
             throw new OverflowException("-" + res);

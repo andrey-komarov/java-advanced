@@ -1,6 +1,6 @@
 package ru.ifmo.ctddev.komarov.calc.parsetree;
 
-import ru.ifmo.ctddev.komarov.calc.CalculatorEvaluationException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.CalculatorEvaluationException;
 
 /**
 * Created by IntelliJ IDEA.
@@ -17,7 +17,7 @@ public class NodeUnaryPlus implements ParseTreeNode {
     }
 
     @Override
-    public double evaluate(int x) throws CalculatorEvaluationException {
+    public double evaluate(double x) throws CalculatorEvaluationException {
         return next.evaluate(x);
     }
 }

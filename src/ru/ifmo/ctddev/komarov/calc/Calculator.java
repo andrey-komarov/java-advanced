@@ -1,5 +1,7 @@
 package ru.ifmo.ctddev.komarov.calc;
 
+import ru.ifmo.ctddev.komarov.calc.exceptions.CalculatorEvaluationException;
+import ru.ifmo.ctddev.komarov.calc.exceptions.ParseException;
 import ru.ifmo.ctddev.komarov.calc.parsetree.*;
 
 public class Calculator {
@@ -20,7 +22,7 @@ public class Calculator {
         }
         return expression.charAt(i);
     }
-    
+
     public Calculator(String expression) throws ParseException {
         StringBuilder sb = new StringBuilder();
         for (char ch : expression.toCharArray()) {
@@ -36,8 +38,7 @@ public class Calculator {
         }
     }
 
-    public double evaluate(int x) throws CalculatorEvaluationException,
-            DivisionByZeroException {
+    public double evaluate(double x) throws CalculatorEvaluationException {
         return tree.evaluate(x);
     }
 
@@ -73,7 +74,7 @@ public class Calculator {
         if (pos < expression.length() && charAt(pos) == '.') {
             sb.append(charAt(pos));
             advance();
-            while(pos < expression.length() && Character.isDigit(charAt(pos))) {
+            while (pos < expression.length() && Character.isDigit(charAt(pos))) {
                 sb.append(charAt(pos));
                 advance();
             }
@@ -116,23 +117,23 @@ public class Calculator {
             }
         }
     }
-    
+
     private boolean expect(final char op) throws ParseException {
-    	if (pos == expression.length()) {
-    		return false;
-    	}
-    	if (charAt(pos) == op) {
-    		advance();
-    		return true;
-    	}
-    	return false;
+        if (pos == expression.length()) {
+            return false;
+        }
+        if (charAt(pos) == op) {
+            advance();
+            return true;
+        }
+        return false;
     }
-    
+
 
     private ParseTreeNode parseProduct() throws ParseException {
         ParseTreeNode result = parseExpression();
         while (true) {
-        	if (expect('*')) {
+            if (expect('*')) {
                 result = new NodeProduct(result, parseExpression());
             } else if (expect('/')) {
                 result = new NodeDivide(result, parseExpression());
