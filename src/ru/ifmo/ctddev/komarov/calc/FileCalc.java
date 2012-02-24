@@ -17,7 +17,8 @@ import java.util.ArrayList;
  */
 public class FileCalc {
     public static void main(String[] args) {
-//        args = new String[] {"/home/andrey/in"};
+        args = new String[] {"/home/andrey/in"};
+
         if (args.length != 1) {
             System.out.println("program needs one argument: arithmetic expression");
             return;
@@ -31,7 +32,6 @@ public class FileCalc {
             String s = br.readLine();
             int functionsCnt = 0;
             while (s != null) {
-                System.err.println(functionsCnt);
                 Function f = null;
                 functionsCnt++;
                 try {
@@ -54,7 +54,7 @@ public class FileCalc {
                     if (f == null) {
                         System.out.print(":(\t");
                     } else {
-                        System.out.print(f.evaluateWithChecks(x) + "\t");
+                        System.out.print(f.evaluateWithChecks(x, x) + "\t");
                     }
                 }
                 System.out.println();

@@ -13,7 +13,7 @@ public class NodeSubtract extends BinaryNode {
     }
 
     @Override
-    protected double evaluate(double op1, double op2) {
+    protected double merge(double op1, double op2) {
         return op1 - op2;
     }
 }

@@ -9,7 +9,7 @@ package ru.ifmo.ctddev.komarov.calc.parsetree;
 */
 public class NodeX implements ParseTreeNode {
     @Override
-    public double evaluate(double x) {
+    public double evaluate(double x, double y) {
         return x;
     }
 }

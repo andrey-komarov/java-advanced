@@ -14,11 +14,11 @@ public abstract class BinaryNode implements ParseTreeNode {
 	}
 
 	@Override
-	public double evaluate(double x) throws CalculatorEvaluationException {
-		double result = evaluate(op1.evaluate(x), op2.evaluate(x));
+	public double evaluate(double x, double y) throws CalculatorEvaluationException {
+		double result = merge(op1.evaluate(x, y), op2.evaluate(x, y));
 		Checker.checkIfOverflow(result);
 		return result;
 	}
 
-	protected abstract double evaluate(double op1, double op2) throws DivisionByZeroException;
+	protected abstract double merge(double op1, double op2) throws DivisionByZeroException;
 }

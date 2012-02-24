@@ -15,14 +15,14 @@ public class Calc {
         }
 
         try (
-                PrintWriter out = new PrintWriter(System.out);
+                PrintWriter out = new PrintWriter(System.out)
         ) {
             Function f = new Function(args[0]);
             f.write(out);
         } catch (ParseException e) {
             System.out.println("Parse error: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Input/output error");
         }
     }
 }

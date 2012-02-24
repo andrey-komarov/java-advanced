@@ -20,8 +20,8 @@ public class NodeUnaryMinus implements ParseTreeNode {
     }
 
     @Override
-    public double evaluate(double x) throws CalculatorEvaluationException {
-        double res = next.evaluate(x);
+    public double evaluate(double x, double y) throws CalculatorEvaluationException {
+        double res = next.evaluate(x, y);
         if (checkIfOverflow(-res)) {
             throw new OverflowException("-" + res);
         }

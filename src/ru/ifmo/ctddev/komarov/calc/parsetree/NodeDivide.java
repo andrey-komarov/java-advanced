@@ -15,7 +15,7 @@ public class NodeDivide extends BinaryNode {
     }
 
     @Override
-    protected double evaluate(double op1, double op2) throws DivisionByZeroException {
+    protected double merge(double op1, double op2) throws DivisionByZeroException {
         if (op2 == 0) {
             throw new DivisionByZeroException();
         }
