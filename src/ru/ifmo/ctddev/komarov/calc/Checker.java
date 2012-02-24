@@ -1,5 +1,7 @@
 package ru.ifmo.ctddev.komarov.calc;
 
+import ru.ifmo.ctddev.komarov.calc.exceptions.OverflowException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: komarov
@@ -10,7 +12,9 @@ package ru.ifmo.ctddev.komarov.calc;
 public class Checker {
 	final static double MAX_VALUE = 1e10;
 	
-    public static boolean checkIfOverflow(double a) {
-        return a < -MAX_VALUE || a > MAX_VALUE;
+    public static boolean checkIfOverflow(double a) throws OverflowException {
+        if (a < -MAX_VALUE || a > MAX_VALUE)
+            throw new OverflowException();
+        return false;
     }
 }

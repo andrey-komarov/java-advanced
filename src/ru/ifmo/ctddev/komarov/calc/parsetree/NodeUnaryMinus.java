@@ -22,9 +22,7 @@ public class NodeUnaryMinus implements ParseTreeNode {
     @Override
     public double evaluate(double x, double y, double z) throws CalculatorEvaluationException {
         double res = next.evaluate(x, y, z);
-        if (checkIfOverflow(-res)) {
-            throw new OverflowException("-" + res);
-        }
+        checkIfOverflow(-res);
         return -res;
     }
 }

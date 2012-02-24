@@ -1,5 +1,9 @@
 package ru.ifmo.ctddev.komarov.calc.parsetree;
 
+import ru.ifmo.ctddev.komarov.calc.exceptions.OverflowException;
+
+import static ru.ifmo.ctddev.komarov.calc.Checker.checkIfOverflow;
+
 /**
 * Created by IntelliJ IDEA.
 * User: komarov
@@ -15,7 +19,8 @@ public class NodeNumber implements ParseTreeNode {
     }
 
     @Override
-    public double evaluate(double x, double y, double z) {
+    public double evaluate(double x, double y, double z) throws OverflowException {
+        checkIfOverflow(value);
         return value;
     }
 }
