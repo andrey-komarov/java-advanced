@@ -25,7 +25,7 @@ public class FileCalc {
         }
 
         try (
-                BufferedReader br = new BufferedReader(new FileReader(new File(args[0])))
+                BufferedReader br = new BufferedReader(new FileReader(new File(args[0])));
         ) {
             ArrayList<Function> functions = new ArrayList<>();
             ArrayList<String> log = new ArrayList<>();
@@ -43,29 +43,38 @@ public class FileCalc {
                 }
                 s = br.readLine();
             }
-            System.out.print("x\t");
+            System.out.print("x\ty\tz\t");
             for (int i = 0; i < functionsCnt; i++) {
                 System.out.print("f" + i + "\t");
             }
             System.out.println();
-            for (int x = 0; x <= 10; x++) {
-                System.out.print(x + "\t");
-                for (Function f : functions) {
-                    if (f == null) {
-                        System.out.print(":(\t");
-                    } else {
-                        System.out.print(f.evaluateWithChecks(x, x) + "\t");
+            final int maxVal = 3;
+            for (int x = 0; x < maxVal; x++) {
+                for (int y = 0; y < maxVal; y++) {
+                    for (int z = 0; z < maxVal; z++) {
+                        System.out.print(x + "\t" + y + "\t" + z + "\t");
+                        for (Function f : functions) {
+                            if (f == null) {
+                                System.out.print(":(\t");
+                            } else {
+                                System.out.print(f.evaluateWithChecks(x, x, x) + "\t");
+                            }
+                        }
+                        System.out.println();
                     }
                 }
-                System.out.println();
             }
 
             for (String legEntry : log) {
                 System.out.println(legEntry);
             }
 
+            if (System.out.checkError()) {
+                throw new IOException();
+            }
+            
         } catch (IOException e) {
-            System.out.println("Error opening file");
+            System.out.println("Input/output error");
         }
     }
 

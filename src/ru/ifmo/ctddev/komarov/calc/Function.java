@@ -43,13 +43,13 @@ public class Function {
         }
     }
 
-    public double evaluate(double x, double y) throws CalculatorEvaluationException {
-        return tree.evaluate(x, y);
+    public double evaluate(double x, double y, double z) throws CalculatorEvaluationException {
+        return tree.evaluate(x, y, z);
     }
 
-    public String evaluateWithChecks(double x, double y) {
+    public String evaluateWithChecks(double x, double y, double z) {
         try {
-            return "" + evaluate(x, y);
+            return "" + evaluate(x, y, z);
         } catch (DivisionByZeroException e) {
             return "division by zero";
         } catch (OverflowException e) {
@@ -60,17 +60,16 @@ public class Function {
     }
 
     public void write(Writer out) throws IOException {
-        out.write("f(x, y)\t");
-        for (int i = 0; i < 10; i++) {
-            out.write("" + i + "\t");
-        }
+        final int maxValue = 3;
+        out.write("x\ty\tz\tf(x, y, z)\t");
         out.write(System.lineSeparator());
-        for (int i = 0; i < 10; i++) {
-            out.write("" + i + "\t");
-            for (int j = 0; j < 10; j++) {
-                out.write(evaluateWithChecks(i, j) + "\t");
+        for (int i = 0; i < maxValue; i++) {
+            for (int j = 0; j < maxValue; j++) {
+                for (int k = 0; k < maxValue; k++) {
+                    out.write("" + i + "\t" + j + "\t" + k + "\t" + evaluateWithChecks(i, j, k));
+                    out.write(System.lineSeparator());
+                }
             }
-            out.write(System.lineSeparator());
         }
         out.close();
     }
@@ -94,6 +93,8 @@ public class Function {
             return new NodeX();
         } else if (expect('y') || expect('Y')) {
             return new NodeY();
+        } else if (expect('z') || expect('Z')) {
+            return new NodeZ();
         } else {
             return parseNumber();
         }

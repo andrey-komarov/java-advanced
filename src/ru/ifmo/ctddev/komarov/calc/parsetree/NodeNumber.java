@@ -15,7 +15,7 @@ public class NodeNumber implements ParseTreeNode {
     }
 
     @Override
-    public double evaluate(double x, double y) {
+    public double evaluate(double x, double y, double z) {
         return value;
     }
 }

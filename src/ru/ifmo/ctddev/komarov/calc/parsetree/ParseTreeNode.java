@@ -10,5 +10,5 @@ import ru.ifmo.ctddev.komarov.calc.exceptions.CalculatorEvaluationException;
 * To change this template use File | Settings | File Templates.
 */
 public interface ParseTreeNode {
-    double evaluate(double x, double y) throws CalculatorEvaluationException;
+    double evaluate(double x, double y, double z) throws CalculatorEvaluationException;
 }

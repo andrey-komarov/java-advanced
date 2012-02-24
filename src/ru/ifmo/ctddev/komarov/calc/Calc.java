@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 public class Calc {
     public static void main(String[] args) {
-        args = new String[]{"x * x * x * 1e-3/x - 3"};
+        args = new String[]{"x * y + y * z + x * z"};
 
         if (args.length != 1) {
             System.out.println("program needs one argument: arithmetic expression");

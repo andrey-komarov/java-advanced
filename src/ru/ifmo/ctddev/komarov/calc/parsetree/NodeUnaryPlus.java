@@ -17,7 +17,7 @@ public class NodeUnaryPlus implements ParseTreeNode {
     }
 
     @Override
-    public double evaluate(double x, double y) throws CalculatorEvaluationException {
-        return next.evaluate(x, y);
+    public double evaluate(double x, double y, double z) throws CalculatorEvaluationException {
+        return next.evaluate(x, y, z);
     }
 }
