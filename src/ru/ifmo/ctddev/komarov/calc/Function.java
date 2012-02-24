@@ -6,11 +6,10 @@ import ru.ifmo.ctddev.komarov.calc.exceptions.OverflowException;
 import ru.ifmo.ctddev.komarov.calc.exceptions.ParseException;
 import ru.ifmo.ctddev.komarov.calc.parsetree.*;
 
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 
 public class Function {
-    private final String expression;
+    private String expression;
     private ParseTreeNode tree;
     private int pos;
 
@@ -28,7 +27,7 @@ public class Function {
         return expression.charAt(i);
     }
 
-    public Function(String expression) throws ParseException {
+    private void init(String expression) throws ParseException {
         StringBuilder sb = new StringBuilder();
         for (char ch : expression.toCharArray()) {
             if (ch != ' ') {
@@ -43,6 +42,16 @@ public class Function {
         }
     }
 
+    public Function(String expression) throws ParseException {
+        init(expression);
+    }
+
+    public Function(File file) throws ParseException, IOException {
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String s = br.readLine();
+        init(s);
+    }
+    
     public double evaluate(double x, double y, double z) throws CalculatorEvaluationException {
         return tree.evaluate(x, y, z);
     }
