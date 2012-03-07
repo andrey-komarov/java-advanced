@@ -1,11 +1,6 @@
 package ru.ifmo.ctddev.komarov.bag;
 
-import java.util.AbstractCollection;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.TreeSet;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,10 +48,15 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
         }
     }
 
-    LinkedBag() {
+    public LinkedBag() {
         time = 0;
         order = new HashMap<>();
         values = new HashMap<>();
+    }
+
+    public LinkedBag(Collection<T> items) {
+        this();
+        addAll(items);
     }
 
     @Override

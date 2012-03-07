@@ -14,6 +14,11 @@ public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> impl
         size = 0;
     }
 
+    public TreeBag (Collection<T> items) {
+        this();
+        addAll(items);
+    }
+
     @Override
     public int size() {
         return size;

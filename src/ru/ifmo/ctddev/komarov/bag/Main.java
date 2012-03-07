@@ -22,5 +22,6 @@ public class Main {
             b.remove(i);
               System.err.println(b);
         }
+        Bag<Integer> b2 = new LinkedBag<>(b);
     }
 }
