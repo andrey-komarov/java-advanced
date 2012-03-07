@@ -22,11 +22,11 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
 
     private class LinkedBagIterator implements Iterator<T> {
         private Iterator<Map.Entry<Long, T>> it;
-        long last;
+        Long last;
 
         public LinkedBagIterator(Iterator<Map.Entry<Long, T>> it) {
             this.it = it;
-            last = -1;
+            last = -1L;
         }
 
         @Override
@@ -43,8 +43,8 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
 
         @Override
         public void remove() {
-            it.remove();
             T toRemove = order.get(last);
+            it.remove();
             TreeSet<Long> where = values.get(toRemove);
             where.remove(last);
             if (where.size() == 0) {
@@ -71,8 +71,7 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
 
     @Override
     public boolean contains(Object o) {
-        T t = (T) o;
-        return values.containsKey(t);
+        return values.containsKey(o);
     }
 
     @Override

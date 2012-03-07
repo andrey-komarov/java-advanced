@@ -7,6 +7,7 @@ package ru.ifmo.ctddev.komarov.bag;
 * Time: 9:42 AM
 * To change this template use File | Settings | File Templates.
 */
+
 class Pair<T extends Comparable<T>> implements Comparable<Pair<T>>{
     T a;
     long id;

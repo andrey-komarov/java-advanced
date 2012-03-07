@@ -1,6 +1,8 @@
 package ru.ifmo.ctddev.komarov.bag;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,14 +13,14 @@ import java.util.Iterator;
  */
 public class Main {
     public static void main(String[] args) {
-        LinkedBag<Integer> b = new LinkedBag<>();
+        Bag<Integer> b = new TreeBag<>();
         for (int i = 0; i < 10; i++) {
-            b.add (17 * i % 3);
+            b.add(i);
+            System.err.println(b);
         }
-        for (int i = 2; i < 9; i++)
-            b.remove(17 * i % 3);
-        for (int i : b) {
-            System.err.print(i);
+        for (int i = 0; i < 10; i++) {
+            b.remove(i);
+              System.err.println(b);
         }
     }
 }

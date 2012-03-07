@@ -1,29 +1,22 @@
 package ru.ifmo.ctddev.komarov.bag;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.AbstractCollection;
+import java.util.*;
 
 public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> implements Bag<T> {
 
     long id;
-    SortedSet<Pair<T>> values;
-
-    public TreeBag () {
-        values = new TreeSet<Pair<T>>();
-        id = 0;
-    }
-
-    private Pair<T> getAny(T val) {
-        Pair<T> tmp = values.tailSet(new Pair<T>(val, 0)).first();
-        return tmp;
-    }
+    TreeMap<T, TreeSet<T>> values;
+    int size;
     
+    public TreeBag () {
+        values = new TreeMap<>();
+        id = 0;
+        size = 0;
+    }
+
     @Override
     public int size() {
-        return values.size();
+        return size;
     }
 
     @Override
@@ -33,33 +26,43 @@ public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> impl
 
     @Override
     public boolean contains(Object o) {
-        T t = (T) o;
-        return t.equals(getAny(t).a);
+        return values.containsKey(o);
     }
 
     @Override
     public Iterator<T> iterator() {
-        return new TreeBagIterator<T>(values.iterator());
+        return new TreeBagIterator<T>(this, values.entrySet().iterator(), id);
     }
 
     @Override
     public boolean add(T t) {
-        return values.add(new Pair<T>(t, id++));
+        size++;
+        id++;
+        if (!values.containsKey(t)) {
+            values.put(t, new TreeSet<T>());
+        }
+        values.get(t).add(t);
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        T t = (T) o;
-        Pair<T> tmp = getAny(t);
-        if (tmp.a.equals(o)) {
-            return values.remove(tmp);
-        } else {
+        if (!values.containsKey(o))
             return false;
+        Set<T> removeFrom = values.get(o);
+        T elem = removeFrom.iterator().next();
+        id++;
+        size--;
+        removeFrom.remove(elem);
+        if (removeFrom.size() == 0) {
+            values.remove(o);
         }
+        return true;
     }
 
     @Override
     public void clear() {
         values.clear();
+        size = 0;
     }
 }
