@@ -12,8 +12,8 @@ import java.util.*;
 public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
 
     long time;
-    HashMap<Long, T> order;
-    HashMap<T, TreeSet<Long>> values;
+    LinkedHashMap<Long, T> order;
+    HashMap<T, HashSet<Long>> values;
 
     private class LinkedBagIterator implements Iterator<T> {
         private Iterator<Map.Entry<Long, T>> it;
@@ -40,7 +40,7 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
         public void remove() {
             T toRemove = order.get(last);
             it.remove();
-            TreeSet<Long> where = values.get(toRemove);
+            Set<Long> where = values.get(toRemove);
             where.remove(last);
             if (where.size() == 0) {
                 values.remove(toRemove);
@@ -50,11 +50,11 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
 
     public LinkedBag() {
         time = 0;
-        order = new HashMap<>();
+        order = new LinkedHashMap<>();
         values = new HashMap<>();
     }
 
-    public LinkedBag(Collection<T> items) {
+    public LinkedBag(Collection<? extends T> items) {
         this();
         addAll(items);
     }
@@ -83,7 +83,7 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
     public boolean add(T t) {
         order.put(time, t);
         if (!values.containsKey(t)) {
-            values.put(t, new TreeSet<Long>());
+            values.put(t, new HashSet<Long>());
         }
         values.get(t).add(time);
         time++;
@@ -95,7 +95,7 @@ public class LinkedBag<T> extends AbstractCollection<T> implements Bag<T> {
         if (!values.containsKey(o)) {
             return false;
         }
-        TreeSet<Long> removeFrom = values.get(o);
+        Set<Long> removeFrom = values.get(o);
         Iterator<Long> removeIt = removeFrom.iterator();
         Long removed = removeIt.next();
         removeIt.remove();

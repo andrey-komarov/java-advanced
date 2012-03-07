@@ -13,7 +13,7 @@ import ru.ifmo.ctddev.komarov.bag.Pair;
 */
 class TreeBagIterator<T extends Comparable<T>> implements Iterator<T> {
     private TreeBag<T> bag;
-    private Iterator<Map.Entry<T, TreeSet<T>>> it1;
+    private Iterator<Map.Entry<T, List<T>>> it1;
     private Iterator<T> it2;
     private long id;
     private Iterator<T> removeFrom;
@@ -23,13 +23,13 @@ class TreeBagIterator<T extends Comparable<T>> implements Iterator<T> {
             throw new ConcurrentModificationException();
     }
 
-    TreeBagIterator(TreeBag<T> bag, Iterator<Map.Entry<T, TreeSet<T>>> it1, long id) {
+    TreeBagIterator(TreeBag<T> bag, Iterator<Map.Entry<T, List<T>>> it1, long id) {
         this.bag = bag;
         this.it1 = it1;
         this.it2 = it2;
         this.id = id;
         it2 = null;
-        removeFrom = it2;
+        removeFrom = null;
     }
 
     @Override
@@ -44,9 +44,16 @@ class TreeBagIterator<T extends Comparable<T>> implements Iterator<T> {
         check();
         if (it1 == null)
             throw new NoSuchElementException();
-        if (it2 != null && it2.hasNext())
+        if (it2 != null && it2.hasNext()) {
+            removeFrom = it2;
             return it2.next();
-        it2 = it1.next().getValue().iterator();
+        }
+        while (true) {
+            it2 = it1.next().getValue().iterator();
+            removeFrom = it2;
+            if (it2.hasNext())
+                break;
+        }
         return it2.next();
     }
 
@@ -59,5 +66,6 @@ class TreeBagIterator<T extends Comparable<T>> implements Iterator<T> {
         removeFrom.remove();
         id++;
         bag.id++;
+        bag.size--;
     }
 }

@@ -14,14 +14,15 @@ import java.util.Set;
 public class Main {
     public static void main(String[] args) {
         Bag<Integer> b = new TreeBag<>();
-        for (int i = 0; i < 10; i++) {
-            b.add(i);
-            System.err.println(b);
+        b.add(2);
+        b.add(3);
+        b.add(4);
+        System.err.println(b);
+        Iterator<Integer> it = b.iterator();
+        while (it.hasNext()) {
+            it.next();
+            it.remove();
         }
-        for (int i = 0; i < 10; i++) {
-            b.remove(i);
-              System.err.println(b);
-        }
-        Bag<Integer> b2 = new LinkedBag<>(b);
+        System.err.println(b);
     }
 }

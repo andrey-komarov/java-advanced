@@ -5,7 +5,7 @@ import java.util.*;
 public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> implements Bag<T> {
 
     long id;
-    TreeMap<T, TreeSet<T>> values;
+    TreeMap<T, List<T>> values;
     int size;
     
     public TreeBag () {
@@ -14,7 +14,7 @@ public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> impl
         size = 0;
     }
 
-    public TreeBag (Collection<T> items) {
+    public TreeBag (Collection<? extends T> items) {
         this();
         addAll(items);
     }
@@ -26,12 +26,12 @@ public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> impl
 
     @Override
     public boolean isEmpty() {
-        return values.isEmpty();
+        return size() == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return values.containsKey(o);
+        return values.containsKey(o) && values.get(o).size() > 0;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> impl
         size++;
         id++;
         if (!values.containsKey(t)) {
-            values.put(t, new TreeSet<T>());
+            values.put(t, new LinkedList<T>());
         }
         values.get(t).add(t);
         return true;
@@ -52,9 +52,9 @@ public class TreeBag<T extends Comparable<T>> extends AbstractCollection<T> impl
 
     @Override
     public boolean remove(Object o) {
-        if (!values.containsKey(o))
+        if (!values.containsKey(o) || values.get(o).size() == 0)
             return false;
-        Set<T> removeFrom = values.get(o);
+        List<T> removeFrom = values.get(o);
         T elem = removeFrom.iterator().next();
         id++;
         size--;
