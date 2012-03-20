@@ -108,7 +108,7 @@ public class Implementor {
             methods.add(new MyMethod(m));
         }
         for (MyMethod m : methods) {
-            implementMethod(m.m, false);
+            implementMethod(m.m, true);
         }
         writer.println("}");
     }
@@ -123,7 +123,7 @@ public class Implementor {
             methods.add(new MyMethod(m));
         }
         for (MyMethod m : methods) {
-            implementMethod(m.m, true);
+            implementMethod(m.m, false);
         }
         writer.println("}");
     }
