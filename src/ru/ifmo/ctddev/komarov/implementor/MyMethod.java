@@ -3,13 +3,6 @@ package ru.ifmo.ctddev.komarov.implementor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-/**
- * Created by IntelliJ IDEA.
- * User: andrey
- * Date: 3/21/12
- * Time: 2:57 AM
- * To change this template use File | Settings | File Templates.
- */
 public class MyMethod {
     public Method m;
 
@@ -41,7 +34,7 @@ public class MyMethod {
         } else if (m2.getReturnType().isInstance(m.getReturnType())){
             m = m2;
         } else {
-            throw new AssertionError();
+//            throw new AssertionError();
         }
 
         return true;

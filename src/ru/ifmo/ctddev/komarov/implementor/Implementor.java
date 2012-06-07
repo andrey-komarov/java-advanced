@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 
 /**
@@ -33,6 +34,9 @@ public class Implementor {
         } else {
             generateClass();
         }
+        Type[] types = clazz.getGenericInterfaces();
+        Type parent = clazz.getGenericSuperclass();
+
         writer.close();
     }
 
@@ -46,6 +50,7 @@ public class Implementor {
         Class<?>[] args = m.getParameterTypes();
         int size = args.length;
         for (int i = 0; i < size; i++) {
+            clazz.getGenericInterfaces();
             writer.print(args[i].getCanonicalName() + " arg" + i);
             if (i != size - 1)
                 writer.print(", ");

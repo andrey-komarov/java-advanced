@@ -1,0 +1,1 @@
+Main-Class: ru.ifmo.ctddev.komarov.implementor.Implementor
