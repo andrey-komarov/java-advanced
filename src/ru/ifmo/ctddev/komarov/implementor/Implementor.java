@@ -2,18 +2,13 @@ package ru.ifmo.ctddev.komarov.implementor;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.HashSet;
 
-/**
- * Created by IntelliJ IDEA.
- * User: andrey
- * Date: 3/20/12
- * Time: 9:25 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class Implementor {
     private PrintWriter writer;
     private String className;
@@ -43,6 +38,7 @@ public class Implementor {
     private void writeMethodModifiers(Method m) {
         int mod = m.getModifiers();
         mod &= ~Modifier.ABSTRACT;
+        mod &= ~Modifier.TRANSIENT;
         writer.print(Modifier.toString(mod) + " ");
     }
 
@@ -103,6 +99,29 @@ public class Implementor {
         writer.print("\n\n");
     }
 
+    private void implementConstructor(Constructor c) {
+        writer.print("\t");
+        writer.print(className + "Impl");
+        writer.print("(");
+        Class[] args = c.getParameterTypes();
+        for (int i = 0; i < args.length; i++) {
+            writer.print(args[i].getName() + " arg" + i);
+            if (i != args.length - 1) {
+                writer.print(", ");
+            }
+        }
+        writer.print(") throws Throwable {\n");
+        writer.print("\t\tsuper(");
+        for (int i = 0; i < args.length; i++) {
+            writer.print("arg" + i);
+            if (i != args.length - 1) {
+                writer.print(", ");
+            }
+        }
+        writer.print(");\n");
+        writer.print("\t}\n");
+    }
+
     private void generateInterface() {
         writer.println("import " + fullName + ";");
         writer.println();
@@ -127,16 +146,25 @@ public class Implementor {
         for (Method m : clazz.getMethods()) {
             methods.add(new MyMethod(m));
         }
+        for (Method m : clazz.getDeclaredMethods()) {
+            methods.add(new MyMethod(m));
+        }
         for (MyMethod m : methods) {
             implementMethod(m.m, false);
         }
+
+        for (Constructor c : clazz.getConstructors()) {
+            implementConstructor(c);
+        }
+
         writer.println("}");
     }
 
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: java Implementor <Class>");
-            return;
+            args = new String[]{"ru.ifmo.ctddev.rakov.implementor.test.A"};
+//            return;
         }
         try {
             new Implementor(args[0]).generate();

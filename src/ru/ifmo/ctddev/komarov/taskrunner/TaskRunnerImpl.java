@@ -20,14 +20,14 @@ public class TaskRunnerImpl implements TaskRunner {
     private class Executor implements Runnable {
         @Override
         public void run() {
-            while (true) {
+            while (!Thread.interrupted()) {
                 TaskWrapper now;
                 synchronized (queue) {
                     try {
                         while (queue.isEmpty())
                             queue.wait();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
                     }
                     now = queue.poll();
                 }
@@ -68,8 +68,9 @@ public class TaskRunnerImpl implements TaskRunner {
             queue.notify();
         }
         synchronized (here) {
-            while (!here.ready)
+            while (!here.ready)   {
                 here.wait();
+            }
         }
         return here.result;
     }
